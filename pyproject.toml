@@ -8,8 +8,8 @@ authors = ["Carlos Valdemar Soria <carlosvsoria1982@gmail.com>"]
 python = "3.8"
 Flask = "2.0.2"
 PyMySQL = "1.0.2"
-python-dotenv = "^0.19.2"
-cryptography = "^36.0.1"
+python-dotenv = "0.19.2"
+cryptography = "36.0.1"
 
 [tool.poetry.dev-dependencies]
 

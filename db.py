@@ -32,9 +32,8 @@ class DATABASES:
         self.__db.close()
         self.cursor.close()
     def search(self, id):
-        print('Search data..')
+        # print('Search data...')
         cursor = self.__db.cursor()
-        # print(id)
         try:
             query="SELECT a.codigo,a.nombre,m.nombre as nmarca,p.prec1,ades.detalle,ades1.detalle,ades2.detalle from articulos a left join precios p on a.codigo=p.codigo left join marcas m on a.marca=m.marca left join articulosdes ades on a.codigo=ades.codigo and ades.iddescr=1 left join articulosdes ades1 on a.codigo=ades1.codigo and ades1.iddescr=2 left join articulosdes ades2 on a.codigo=ades2.codigo and ades2.iddescr=3 WHERE a.codigo=(%s) "
             cursor.execute(query, id)

@@ -1,18 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
 
-{% if DataProduct %}
-<script>
-    var someJavaScriptVar = {{ DataProduct| tojson }};
-
-    console.log(someJavaScriptVar)
-</script>
-
-
 <div class="container-fluid">
-
+    
     <div class="row justify-content-md-center">
-        <div class="col-6">
+        {% if DataProduct %}
+        <div class="col-4">
             <h1>
                 {{ DataProduct.name }}
             </h1>
@@ -35,13 +28,28 @@
             </ul>
 
 
-            {% else %}
-            <h4>No hay elementos para mostrar</h4>
-
-            {% endif %}
+            
         </div>
+
+        
+        {% else %}
+            <div class="col-4">
+                <h4>No hay elementos para mostrar</h4>
+            </div>
+            
+    {% endif %}  
+            
     </div>
+
+
+          
+
+          
+
+
 </div>
+
+
 
 
 {% endblock %}
