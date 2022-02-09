@@ -2,13 +2,16 @@
 {% block body %}
 
 <div class="container-fluid">
-    
     <div class="row justify-content-md-center">
         {% if DataProduct %}
         <div class="col-4">
             <h1>
                 {{ DataProduct.name }}
             </h1>
+            <h1>
+                Código: {{ DataProduct.code }}
+            </h1>
+            
             <h2>
                 Precio: ${{ DataProduct.price}}
             </h2>
@@ -26,30 +29,12 @@
                 {% endif %}
                 {% endfor%}
             </ul>
-
-
-            
         </div>
-
-        
         {% else %}
             <div class="col-4">
                 <h4>No hay elementos para mostrar</h4>
             </div>
-            
-    {% endif %}  
-            
+        {% endif %}    
     </div>
-
-
-          
-
-          
-
-
 </div>
-
-
-
-
 {% endblock %}

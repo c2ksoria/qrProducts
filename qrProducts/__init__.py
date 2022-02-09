@@ -5,6 +5,7 @@ from flask import Flask, redirect, render_template
 from example.data import dataProduct
 import db
 import json
+import base64
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -29,23 +30,42 @@ def create_app(test_config=None):
 
     # a simple page that says hello
 
-    @app.route("/<int:code>")
+    @app.route("/<code>")
     def qrRead(code):
         dataDetected={}
-        data= DB.search(code)
+        try:
+            print(code)
+            bytesDecoded= base64.b64decode(code)
+            print(bytesDecoded)
+            print(type(bytesDecoded))
+            string=bytesDecoded.decode("utf-8")
+            print(type(string))
+            # string='{"codigo":"00000026"}'
+            print(string)
+            jsonResult=json.loads(string)
+            valor=int(jsonResult["codigo"])
+            print(jsonResult)
+            print(valor)
+            print(type(valor))
+            data= DB.search(valor)
 
-        if (data):
-            print(data[0])
-            data=data[0]
-            dataDetected={"code":data[0], "name": data[1], "maker": data[2], "price": data[3], "details": [data[4], data[5], data[6]]}
-            print(dataDetected)
-        else:
-            print("Código no encontrado")
+            if (data):
+                print(data[0])
+
+                data=data[0]
+                dataDetected={"code":valor, "name": data[1], "maker": data[2], "price": data[3], "details": [data[4], data[5], data[6]]}
+                print(dataDetected)
+            else:
+                print("Código no encontrado")
+        
+        except:
+            print("hubo un error en la decodificación")
+            return redirect('/notfound')
         return render_template('qr.html', DataProduct=dataDetected)
 
     @app.route("/notfound")
     def code_not_found():
-        render_template('code.html')
+        return render_template('notFound.html')
 
     @app.errorhandler(404)
     def page_not_found(e):
