@@ -40,7 +40,6 @@ def create_app(test_config=None):
             print(type(bytesDecoded))
             string=bytesDecoded.decode("utf-8")
             print(type(string))
-            # string='{"codigo":"00000026"}'
             print(string)
             jsonResult=json.loads(string)
             valor=int(jsonResult["codigo"])
@@ -50,14 +49,12 @@ def create_app(test_config=None):
             data= DB.search(valor)
 
             if (data):
-                print(data[0])
-
+                # print(data[0])
                 data=data[0]
-                dataDetected={"code":valor, "name": data[1], "maker": data[2], "price": data[3], "details": [data[4], data[5], data[6]]}
+                dataDetected={"code":data[0], "name": data[1], "maker": data[2], "price": data[3], "details": [data[4], data[5], data[6]]}
                 print(dataDetected)
             else:
                 print("Código no encontrado")
-        
         except:
             print("hubo un error en la decodificación")
             return redirect('/notfound')
