@@ -1,7 +1,7 @@
 from curses.ascii import NUL
 import os
 from email.mime import base
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, send_from_directory
 from example.data import dataProduct
 import db
 import json
@@ -67,4 +67,9 @@ def create_app(test_config=None):
     def page_not_found(e):
     #snip
         return render_template('404.html'), 404
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
     return app
