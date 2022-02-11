@@ -1,7 +1,7 @@
 from curses.ascii import NUL
 import os
 from email.mime import base
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request
 from example.data import dataProduct
 import db
 import json
@@ -34,30 +34,29 @@ def create_app(test_config=None):
     def qrRead(code):
         dataDetected={}
         try:
-            print(code)
-            bytesDecoded= base64.b64decode(code)
-            print(bytesDecoded)
-            print(type(bytesDecoded))
-            string=bytesDecoded.decode("utf-8")
-            print(type(string))
+            bytesDecoded = code.encode('ascii')
+            print("base64_bytes",bytesDecoded)
+            message_bytes = base64.urlsafe_b64decode(bytesDecoded)
+            print("message_bytes",message_bytes)
+            string = message_bytes.decode('ascii')
             print(string)
             jsonResult=json.loads(string)
+            print (jsonResult)
             valor=int(jsonResult["codigo"])
             print(jsonResult)
             print(valor)
             print(type(valor))
             data= DB.search(valor)
-
             if (data):
-                # print(data[0])
-                data=data[0]
-                dataDetected={"code":data[0], "name": data[1], "maker": data[2], "price": data[3], "details": [data[4], data[5], data[6]]}
-                print(dataDetected)
+                 # print(data[0])
+                 data=data[0]
+                 dataDetected={"code":data[0], "name": data[1], "maker": data[2], "price": data[3], "details": [data[4], data[5], data[6]]}
+                #  print(dataDetected)
             else:
-                print("Código no encontrado")
+                 print("Código no encontrado")
         except:
-            print("hubo un error en la decodificación")
-            return redirect('/notfound')
+                 print("Hubo un error, la url solicitada no es válida")
+                 return redirect("/notfound")
         return render_template('qr.html', DataProduct=dataDetected)
 
     @app.route("/notfound")
