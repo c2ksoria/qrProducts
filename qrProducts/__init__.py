@@ -38,6 +38,7 @@ def create_app(test_config=None):
             # print("base64_bytes",bytesDecoded)
             message_bytes = base64.urlsafe_b64decode(bytesDecoded)
             # print("message_bytes",message_bytes)
+            string = message_bytes.decode('ascii')
             # print(string)
             jsonResult=json.loads(string)
             # print (jsonResult)
