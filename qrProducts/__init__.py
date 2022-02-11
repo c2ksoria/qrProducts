@@ -38,7 +38,6 @@ def create_app(test_config=None):
             # print("base64_bytes",bytesDecoded)
             message_bytes = base64.urlsafe_b64decode(bytesDecoded)
             # print("message_bytes",message_bytes)
-            string = message_bytes.decode('ascii')
             # print(string)
             jsonResult=json.loads(string)
             # print (jsonResult)
@@ -67,9 +66,9 @@ def create_app(test_config=None):
     def page_not_found(e):
     #snip
         return render_template('404.html'), 404
+    
     @app.route('/favicon.ico')
     def favicon():
-        return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+        return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico')
 
     return app
